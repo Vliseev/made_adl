@@ -1,26 +1,9 @@
 import numpy as np
 import gym
-from numpy.core.numeric import cross
 from tic_tac_toe import TicTacToe
 from collections import defaultdict
 import tqdm
-
-
-class TikTakCounter:
-    def __init__(self) -> None:
-        self.cross = 0
-        self.naughts = 0
-        self.draw = 0
-        self.tot = 0
-        self.invalid = 0
-
-    def __str__(self) -> str:
-        return "cross={} naughts={} tot={} draw={} invalid={}".format(
-            self.cross, self.naughts, self.tot, self.draw, self.invalid)
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
+from tic_tac_toe import TikTakCounter
 
 class QleaningAgent(object):
     WIN = 1.0
@@ -97,7 +80,7 @@ def move(env, pi, actions, random=False, verbos=False):
     return pi.learn_step(env)
 
 
-def plot_test_game(env, agent1, agent2, counter: TikTakCounter, random_crosses=False, random_naughts=True, verbose=False):
+def play_game(env, agent1, agent2, counter: TikTakCounter, random_crosses=False, random_naughts=True, verbose=False):
     done = False
     env.reset()
     if agent1:
@@ -136,20 +119,3 @@ def plot_test_game(env, agent1, agent2, counter: TikTakCounter, random_crosses=F
         agent1.update(env, reward)
     if agent2:
         agent2.update(env, reward)
-
-
-if __name__ == "__main__":
-    counter = TikTakCounter()
-    env = TicTacToe(3, 3, 3)
-    agent1 = QleaningAgent(env)
-    agent2 = QleaningAgent(env)
-    for i in tqdm.tqdm(range(10000)):
-        plot_test_game(env, agent1, None, counter, False, True, verbose=False)
-        counter.tot += 1
-    print(counter)
-    # counter = TikTakCounter()
-    # for i in tqdm.tqdm(range(10000)):
-    #     plot_test_game(env, agent1, agent2, counter,
-    #                    False, False, verbose=False)
-    #     counter.tot += 1
-    # print(counter)
