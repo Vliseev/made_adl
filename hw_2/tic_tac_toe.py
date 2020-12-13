@@ -2,12 +2,20 @@ import numpy as np
 import gym
 
 class TikTakCounter:
-    def __init__(self) -> None:
+    def __init__(self, steps_save=1) -> None:
+        self.steps_save = steps_save
+
         self.cross = 0
         self.naughts = 0
         self.draw = 0
         self.tot = 0
         self.invalid = 0
+
+        self.cross_list = []
+        self.naughts_list = []
+        self.draw_list = []
+        self.tot_list = []
+        self.invalid_list = []
 
     def __str__(self) -> str:
         return "cross={} naughts={} tot={} draw={} invalid={}".format(
@@ -15,6 +23,15 @@ class TikTakCounter:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def update_history(self):
+        if self.tot % self.steps_save == 0:
+            self.cross_list.append(self.cross)
+            self.naughts_list.append(self.naughts)
+            self.draw_list.append(self.draw)
+            self.tot_list.append(self.tot)
+            self.invalid_list.append(self.invalid)
+
 
 class TicTacToe(gym.Env):
     def __init__(self, n_rows=3, n_cols=3, n_win=3):

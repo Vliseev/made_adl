@@ -101,29 +101,3 @@ def move(env, pi, s, actions, random=False, verbos=False):
         a = np.random.randint(len(actions))
         return env.step(actions[a])
     return pi.move(env)
-
-
-def plot_test_game(env, pi1, pi2, random_crosses=False, random_naughts=True):
-    '''Играем тестовую партию между стратегиями или со случайными ходами, рисуем ход игры'''
-    done = False
-    env.reset()
-    while not done:
-        s, actions = env.getHash(), env.getEmptySpaces()
-        if env.curTurn == 1:
-            observation, reward, done, info = move(
-                env, pi1, s, actions, random=random_crosses, verbos=True)
-        else:
-            observation, reward, done, info = move(
-                env, pi2, s, actions, random=random_naughts, verbos=True)
-        if reward == 1:
-            print("Крестики выиграли!")
-        if reward == -1:
-            print("Нолики выиграли!")
-    env.printBoard()
-
-
-if __name__ == "__main__":
-    agent = MinMaxAgent()
-    agent.new_game(-1)
-    env = TicTacToe(4,4,4)
-    plot_test_game(env, None, agent, True, False)
