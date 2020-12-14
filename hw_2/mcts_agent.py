@@ -86,7 +86,7 @@ class MCTSAgent(object):
                 node.win_counts[1] += 0.5
                 node.win_counts[-1] += 0.5
             else:
-                node.win_counts[winner] += 0.5
+                node.win_counts[winner] += reward
             node = node.parent
 
     def random_game(self, env: TicTacToe):
